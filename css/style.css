@@ -129,3 +129,35 @@ table {
   border-spacing: 0;
 }
 /* =========================== CSS RESET END =========================== */
+.card-img{
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+i {
+  margin-right: 10px;
+}
+
+.card-vin {
+  width: 45%;
+}
+
+.car-inf i {
+  color: #e96f28e7;
+}
+
+.status{
+  text-align: center;
+  width: 60px;
+  clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+}
+
+.status-vip{
+  top: 10px;
+}
+
+.status-top{
+  top: 40px;
+
+}
