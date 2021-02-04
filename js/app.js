@@ -12,9 +12,7 @@ const timeFormatter = new Intl.DateTimeFormat(undefined, {
 
 // ================= CONVERT CURRENCY START =================
 const changeUSDtoUAH = 28.01
-const defaultCurrency = new Intl.NumberFormat(undefined, {
-  style: "currency",
-  currency: "USD",
+const defaultnumber = new Intl.NumberFormat(undefined, {
   maximumSignificantDigits: 3
 })
 
@@ -95,12 +93,12 @@ function createCardElement(car) {
         </div>
 
         <div class="d-flex card-price">
-        <h2 class="card-text fs-4 fw-bold text-success">${defaultCurrency.format(car.price)} </h3>
+        <h2 class="card-text fs-4 fw-bold text-success">${defaultnumber.format(car.price)} $</h3>
         <h3 class="card-text card-currency fs-6 text-muted">${currencyFormatter.format(car.price * changeUSDtoUAH)}</h3>
         </div>
 
         <div class="car-inf row row-cols-2 card-icons">
-          <p class="col card-text card-odo"><i class="fas fa-tachometer-alt"></i>${car.odo} km</p>
+          <p class="col card-text card-odo"><i class="fas fa-tachometer-alt"></i>${defaultnumber.format(car.odo)} km/h</p>
           <p class="col card-text card-country"><i class="fas fa-map-marker-alt"></i>${car.country}</p>
           <p class="col card-text card-fuel engine-volume"><i class="fas fa-gas-pump"></i>${car.fuel}, ${car.engine_volume}L</p>
           <p class="col card-text card-transmission"><i class="fas fa-sitemap"></i>${car.transmission}</p>
