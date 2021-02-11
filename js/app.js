@@ -1,6 +1,8 @@
 let CARS = [...DATA];
 const carListEl = document.getElementById("carList");
 const masonryBtnsEl = document.getElementById("masonryBtns")
+const sortingSelectEl = document.getElementById("sortingSelect")
+const searchFormEl = document.getElementById("searchForm")
 
 // ================= CONVERT TIMW START =================
 const dateFormatter = new Intl.DateTimeFormat()
@@ -19,7 +21,8 @@ const defaultnumber = new Intl.NumberFormat(undefined, {
 const currencyFormatter = new Intl.NumberFormat(undefined, {
   style: "currency",
   currency: "UAH",
-  maximumSignificantDigits: 3
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0
 })
 // ================= CONVERT CURRENCY END =================
 
@@ -37,6 +40,41 @@ function insertCards(whereEl, cars) {
 }
 // ================= CAR CARD GENERATE END ================= 
 
+// ================= SORTING START ================= 
+sortingSelectEl.addEventListener('change', event =>{
+  const [key, type] = event.target.value.split('-')
+
+  CARS.sort((a,b) => {
+    if (type == 'ab') {
+      return a[key] - b[key] 
+    } else if (type == 'ba') {
+      return b[key] - a[key] 
+    }
+  })
+  insertCards(carListEl, CARS);
+})
+// ================= SORTING END ================= 
+
+// ================= SEARCH START ================= 
+searchFormEl.addEventListener('submit', event => {
+  event.preventDefault()
+  const query = event.target.search.value.toLowerCase().trim().split(' ')
+  console.log(query);
+  const filterFields = ['make', 'model', 'year', 'engine_volume']
+
+  const filteredCars = CARS.filter(car => {
+    return query.every(word => {
+      return !word || filterFields.some(field => {
+        return `${car[field]}`.toLowerCase().trim().includes(word)
+      })
+    })
+  })
+
+
+  insertCards(carListEl, filteredCars);
+  event.target.reset()
+})
+// ================= SEARCH END ================= 
 
 // ================= BTN LIST CHANGEs START ================= 
 masonryBtnsEl.addEventListener('click', function (event) {
@@ -80,7 +118,7 @@ function createCardElement(car) {
 
   return `<div class="col card mb-2 ">
     <div class="row g-0">
-      <div class="col-4 position-relative card-img-wrap">
+      <div class="col-4 position-relative card-img-wrap mt-3">
         <img width="1" height="1" loading="lazy" class="card-img" src="${car.img}" alt="${car.make} ${car.model} ${car.year}">
         ${car.vip ? `<p class="status status-vip bg-primary fw-bold text-light position-absolute">VIP</p>` : ''}
         ${car.top ? `<p class="status status-top bg-success fw-bold text-light position-absolute">TOP</p>` : ''}
@@ -98,7 +136,7 @@ function createCardElement(car) {
         </div>
 
         <div class="car-inf row row-cols-2 card-icons">
-          <p class="col card-text card-odo"><i class="fas fa-tachometer-alt"></i>${defaultnumber.format(car.odo)} km/h</p>
+          <p class="col card-text card-odo"><i class="fas fa-tachometer-alt"></i>${defaultnumber.format(car.odo)} km</p>
           <p class="col card-text card-country"><i class="fas fa-map-marker-alt"></i>${car.country}</p>
           <p class="col card-text card-fuel engine-volume"><i class="fas fa-gas-pump"></i>${car.fuel}, ${car.engine_volume}L</p>
           <p class="col card-text card-transmission"><i class="fas fa-sitemap"></i>${car.transmission}</p>

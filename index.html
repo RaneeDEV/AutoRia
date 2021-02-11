@@ -29,25 +29,60 @@
         <div class="col-12 mb-5">
           <div class="row">
             <div class="col-3">
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Sorting ...</option>
-                <option value="1">Sorting 1</option>
-                <option value="2">Sorting 2</option>
-                <option value="3">Sorting 3</option>
+              <select
+                class="form-select"
+                id="sortingSelect"
+                aria-label="Default select example"
+              >
+                <option selected disabled value="">Sorting ...</option>
+                <option value="price-ab">По цене (от дешевых к дорогим)</option>
+                <option value="price-ba">По цене (от дорогих к дешевым)</option>
+                <option value="year-ab">
+                  По году выпуска (от старых к новым)
+                </option>
+                <option value="year-ba">
+                  По году выпуска (от новых к старых)
+                </option>
+                <option value="rating-ab">
+                  По популярности (от низкого рейтинга к высокому)
+                </option>
+                <option value="rating-ba">
+                  По популярности (от высокого рейтинга к низкиму)
+                </option>
+                <option value="seller-ab">
+                  По продавцу (алфавитный порядок)
+                </option>
+                <option value="seller-ba">
+                  По продавцу (от высокого рейтинга к низкиму)
+                </option>
               </select>
             </div>
-            <div class="col-7 d-flex">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-primary" type="submit">
-                Search
-              </button>
-            </div>
-            <div class="col-2 d-flex align-items-center justify-content-end masonry-btns" id="masonryBtns">
+            <form name="searchForm" id="searchForm" class="col-7">
+              <div class="row">
+                <div class="col">
+                  <input
+                    class="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    name="search"
+                  />
+                </div>
+                <div class="col">
+                  <button
+                    class="btn btn-outline-primary btn-search"
+                    type="submit"
+                    name="btn-search"
+                  >
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div
+              class="col-2 d-flex align-items-center justify-content-end masonry-btns"
+              id="masonryBtns"
+            >
               <button class="button btn btn-secondary" data-action="2">
                 <i class="fas fa-border-all"></i>
               </button>
