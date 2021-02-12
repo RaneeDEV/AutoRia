@@ -129,8 +129,25 @@ table {
   border-spacing: 0;
 }
 /* =========================== CSS RESET END =========================== */
-.header{
-  color: #fff;
+
+/* =========================== COMMON START =========================== */
+body {
+  background-color: var(--bg-color) !important;
+}
+
+:root {
+  --hue: 146;
+  --white: #fff;
+  --primary-color: hsl(var(--hue), 100%, 37%);
+  --primary-darckness-color: hsl(var(--hue), 100%, 30%);
+  --secondary-color: hsl(calc(var(--hue) - 45), 0%, 20%);
+  --bg-color: hsl(calc(var(--hue) - 45), 0%, 96%);
+}
+/* =========================== COMMON END =========================== */
+
+/* =========================== HEADER START =========================== */
+.header {
+  color: var(--white);
   text-transform: uppercase;
   font-style: italic;
   background-color: #333;
@@ -138,18 +155,84 @@ table {
   position: relative;
 }
 
-.header::after{
-  content: '';
+.header::after {
+  content: "";
   position: absolute;
   bottom: -1px;
   left: 50%;
-  background: #fff;
+  background: var(--bg-color);
   width: 30px;
   height: 20px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
+/* =========================== HEADER END =========================== */
 
-.contant{
+/* =========================== FORM'S STYLE START =========================== */
+.form-select,
+.form-control {
+  border-radius: 0 !important;
+  border: transparent !important;
+  border: 2px dashed var(--primary-darckness-color) !important;
+}
+
+.btn-search {
+  width: 100%;
+}
+
+.filter-form {
+  position: sticky;
+  /* top: 30px; */
+}
+
+.filter-elements {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.filter-fields {
+  font-style: italic;
+  padding: 10px 0;
+  color: #333;
+  position: relative;
+  width: 100%;
+}
+
+.filter-fields::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  bottom: 10px;
+  background: var(--primary-color);
+  width: 100%;
+  height: 35%;
+  transform: skew(-35deg);
+  z-index: -1;
+}
+
+.filter-elements::-webkit-scrollbar {
+  width: 7px;
+}
+
+.filter-elements::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 999px;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.filter-block:hover > .filter-elements::-webkit-scrollbar-thumb {
+  visibility: visible;
+  opacity: 1;
+  transition: 0.25s;
+}
+/* =========================== FORM'S STYLE END =========================== */
+
+/* =========================== CARD STYLE START =========================== */
+.card {
+  background-color: var(--bg-color) !important;
+}
+
+.contant {
   padding-top: 50px;
 }
 
@@ -159,32 +242,12 @@ table {
   object-fit: cover;
 }
 
-.card-currency{
-  position: relative;
-  margin: 5px 0 0 30px;
-}
-
-.card-currency::before{
-  content: '';
-  position: absolute;
-  top: 9px;
-  left: -15px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
+.car-inf i {
+  color: rgba(230, 92, 0, 0.7);
 }
 
 .card-icons i {
   margin-right: 10px;
-}
-
-.card-vin {
-  width: 45%;
-}
-
-.car-inf i {
-  color: #e96f28e7;
 }
 
 .status {
@@ -201,12 +264,34 @@ table {
   top: 40px;
 }
 
-.button {
-  margin-right: 7px;
+.card-currency {
+  position: relative;
+  margin: 5px 0 0 30px;
+}
+
+.card-currency::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: -15px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.card-vin {
+  display: inline-flex;
+  align-items: center;
+  padding-right: 20px;
 }
 
 .info-btn {
   width: 70px;
+}
+
+.button {
+  margin-right: 7px;
 }
 
 .car-list.row-cols-2 .card-img-wrap,
@@ -218,8 +303,4 @@ table {
 .card-footer > :nth-child(n + 2) {
   margin-left: 10px;
 }
-
-
-.btn-search{
-  width: 100px;
-}
+/* =========================== CARD STYLE END =========================== */

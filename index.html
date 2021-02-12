@@ -21,20 +21,20 @@
   <body>
     <header class="header">
       <div class="container">
-        <h1 class="text-center">Car Sale Declaration</h1>
+        <h1 class="text-center"><i class="fas fa-car-alt text-success p-2"></i>Car Sale Declaration</h1>
       </div>
     </header>
     <div class="container">
       <div class="row contant">
         <div class="col-12 mb-5">
           <div class="row">
-            <div class="col-3">
+            <div class="col-4">
               <select
-                class="form-select"
+                class="form-select bg-transparent"
                 id="sortingSelect"
                 aria-label="Default select example"
               >
-                <option selected disabled value="">Sorting ...</option>
+                <option selected disabled value="">Sorting cars by ...</option>
                 <option value="price-ab">По цене (от дешевых к дорогим)</option>
                 <option value="price-ba">По цене (от дорогих к дешевым)</option>
                 <option value="year-ab">
@@ -52,25 +52,25 @@
                 <option value="seller-ab">
                   По продавцу (алфавитный порядок)
                 </option>
-                <option value="seller-ba">
-                  По продавцу (от высокого рейтинга к низкиму)
+                <option value="vin-ab">
+                  По вин коду (алфавитный порядок)
                 </option>
               </select>
             </div>
-            <form name="searchForm" id="searchForm" class="col-7">
+            <form name="searchForm" id="searchForm" class="col-6 search-input">
               <div class="row">
-                <div class="col">
+                <div class="col-10">
                   <input
-                    class="form-control me-2"
+                    class="form-control me-2 bg-transparent"
                     type="search"
-                    placeholder="Search"
+                    placeholder="Search Car on Web ..."
                     aria-label="Search"
                     name="search"
                   />
                 </div>
                 <div class="col">
                   <button
-                    class="btn btn-outline-primary btn-search"
+                    class="btn btn-outline-success btn-search"
                     type="submit"
                     name="btn-search"
                   >
@@ -92,7 +92,11 @@
             </div>
           </div>
         </div>
-        <div class="col-3 border">filtering</div>
+        <div class="col-3">
+          <form class="filter-form" id="filterForm" name="filterForm">
+            <button type="submit" class="btn btn-success fw-bold text-uppercase">Filtering</button>
+          </form>
+        </div>
         <div class="col-9">
           <div class="row row-cols-1 car-list" id="carList"></div>
         </div>
