@@ -21,13 +21,30 @@
   <body>
     <header class="header">
       <div class="container">
-        <h1 class="text-center"><i class="fas fa-car-alt text-success p-2"></i>Car Sale Declaration</h1>
+        <h1 class="text-center">
+          <i class="fas fa-car-alt text-success p-2"></i>Car Sale Declaration
+        </h1>
       </div>
     </header>
     <div class="container">
       <div class="row contant">
         <div class="col-12 mb-5">
           <div class="row">
+            <div
+              class="col-12 top-panel d-flex justify-content-end text-end mb-4"
+            >
+              <a href="#" class="wishlist-link text-success">
+                <i class="fas fa-shopping-cart"></i>
+              </a>
+              <a
+                href="#"
+                class="wishlist-link text-danger"
+                id="wishListLink"
+                data-count="0"
+              >
+                <i class="fas fa-heart"></i>
+              </a>
+            </div>
             <div class="col-4">
               <select
                 class="form-select bg-transparent"
@@ -37,6 +54,12 @@
                 <option selected disabled value="">Sorting cars by ...</option>
                 <option value="price-ab">По цене (от дешевых к дорогим)</option>
                 <option value="price-ba">По цене (от дорогих к дешевым)</option>
+                <option value="top-ba">TOP (сначала ТОП-овые)</option>
+                <option value="vip-ba">VIP (сначала VIP-овые)</option>
+                <option value="vin-ab">По VIN коду</option>
+                <option value="price-ab">
+                  По производителю (алфавитный порядок)
+                </option>
                 <option value="year-ab">
                   По году выпуска (от старых к новым)
                 </option>
@@ -51,9 +74,6 @@
                 </option>
                 <option value="seller-ab">
                   По продавцу (алфавитный порядок)
-                </option>
-                <option value="vin-ab">
-                  По вин коду (алфавитный порядок)
                 </option>
               </select>
             </div>
@@ -94,12 +114,29 @@
         </div>
         <div class="col-3">
           <form class="filter-form" id="filterForm" name="filterForm">
-            <button type="submit" class="btn btn-success fw-bold text-uppercase">Filtering</button>
+            <button
+              type="submit"
+              class="btn btn-success fw-bold text-uppercase"
+            >
+              Filtering
+            </button>
           </form>
         </div>
         <div class="col-9">
-          <div class="row row-cols-1 car-list" id="carList"></div>
+          <div class="g-0 row row-cols-1 car-list" id="carList"></div>
         </div>
+      </div>
+    </div>
+    <div class="modal-backdrop1" id="modalClose">
+      <div class="modal-window">
+        <i class="fas fa-cookie-bite cookies-icon mb-4"></i>
+        <h2 class="cookies-title fw-bold text-uppercase fst-italic">We Use Cookies !</h2>
+        <p class="cookies-text mt-4 mb-4">
+          Our Website uses cookies and other tracking technologies. It's not a
+          secret. But how you decide to communicate this fact to your users
+          makes a huge difference.
+        </p>
+        <button class="btn-cookies btn btn-outline-success fw-bold" id="btnModalClose">Mmm ... Sweet !</button>
       </div>
     </div>
     <script

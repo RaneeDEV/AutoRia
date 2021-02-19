@@ -130,9 +130,51 @@ table {
 }
 /* =========================== CSS RESET END =========================== */
 
+/* =========================== MODAL START =========================== */
+body.open-modal {
+  overflow: hidden;
+}
+
+body.open-modal .modal-backdrop1 {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal-backdrop1 {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(51, 51, 51, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.7s;
+}
+
+.modal-window {
+  border-radius: 5px;
+  padding: 50px;
+  background-color: #fff;
+  text-align: center;
+  width: 500px;
+  box-shadow: 0 0 15px 0 hsla(152, 85%, 32%, 0.5);
+}
+
+.cookies-icon {
+  font-size: 60px;
+  color: var(--primary-color);
+}
+/* =========================== MODAL END =========================== */
+
 /* =========================== COMMON START =========================== */
 body {
   background-color: var(--bg-color) !important;
+  font-family: sans-serif;
 }
 
 :root {
@@ -242,6 +284,42 @@ body {
   object-fit: cover;
 }
 
+.car-list.row-cols-2 .card-title {
+  height: calc(2em * 1.2);
+}
+
+.top-panel > :nth-child(n + 2) {
+  margin-left: 15px;
+}
+
+.wishlist-link {
+  font-size: 30px;
+  transition: 0.25s;
+  position: relative;
+}
+
+.wishlist-link::before {
+  content: attr(data-count);
+  position: absolute;
+  top: 0;
+  left: 22px;
+  color: currentColor;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  font-size: 17px;
+  border-radius: 50%;
+  color: currentColor;
+  background-color: #fff;
+}
+
+.wishlist-link:hover {
+  opacity: 0.8;
+  transform: scale(1.2);
+}
+
 .car-inf i {
   color: rgba(230, 92, 0, 0.7);
 }
@@ -277,7 +355,6 @@ body {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: currentColor;
 }
 
 .card-vin {
@@ -304,3 +381,4 @@ body {
   margin-left: 10px;
 }
 /* =========================== CARD STYLE END =========================== */
+

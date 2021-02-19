@@ -6,7 +6,15 @@ const sortingSelectEl = document.getElementById("sortingSelect")
 const searchFormEl = document.getElementById("searchForm")
 const filterFormEl = document.getElementById("filterForm")
 
+const wishListLinkEl = document.getElementById("wishListLink")
+
 const filterFields = ['make', 'fuel', 'transmission']
+
+if (!localStorage.wishList) {
+  localStorage.wishList = JSON.stringify([])
+}
+
+const wishListLS = JSON.parse(localStorage.wishList)
 
 // ================= CONVERT TIMW START =================
 const dateFormatter = new Intl.DateTimeFormat()
@@ -30,6 +38,44 @@ const currencyFormatter = new Intl.NumberFormat(undefined, {
 })
 // ================= CONVERT CURRENCY END =================
 
+// ================= OPAN MODAL START =================
+setTimeout(() => document.body.classList.add('open-modal'), 2000)
+modalClose.addEventListener('click', function(event) {
+  if (event.target == this) {
+    document.body.classList.remove('open-modal')
+  }
+})
+btnModalClose.addEventListener('click', function(event) {
+  if (event.target == this) {
+    document.body.classList.remove('open-modal')
+  }
+})
+document.addEventListener('keyup', event => {
+  if (event.code == 'Escape') {
+    document.body.classList.remove('open-modal')
+  }
+})
+// ================= OPAN MODAL END =================
+
+// ================= WISH BTN'S START =================
+carListEl.addEventListener('click', event =>{
+  const wishBtnEl = event.target.closest('.wish-btn')
+  if (wishBtnEl) {
+    const id = wishBtnEl.closest('.card').dataset.id
+    if (!wishListLS.includes(id)) {
+      wishListLS.push(id)
+      wishBtnEl.classList.remove('btn-outline-danger')
+      wishBtnEl.classList.add('btn-danger')
+    } else {
+      wishListLS.splice(wishListLS.indexOf(id), 1)
+      wishBtnEl.classList.remove('btn-danger')
+      wishBtnEl.classList.add('btn-outline-danger')
+    }
+    wishListLinkEl.dataset.count = wishListLS.length
+    localStorage.wishList = JSON.stringify(wishListLS)
+  }
+})
+// ================= WISH BTN'S END =================
 
 // ================= CAR CARD GENERATE START ================= 
 insertCards(carListEl, CARS);
@@ -51,16 +97,23 @@ sortingSelectEl.addEventListener('change', event => {
 
   const [key, type] = event.target.value.split('-')
 
-  CARS.sort((a,b) => {
-
     if (type == 'ab') {
-      return a[key] - b[key] 
-
+      CARS.sort((a,b) => {
+        if (typeof a[key] === 'string') {
+          return a[key].localeCompare(b[key])
+        } else if (typeof a[key] === 'boolean' || 'number'){
+          return a[key] - b[key] 
+        }
+      })
     } else if (type == 'ba'){
-      return b[key] - a[key] 
-
+      CARS.sort((a,b) => {
+        if (typeof b[key] === 'string') {
+          return b[key].localeCompare(b[key])
+        } else if (typeof b[key] === 'boolean' || 'number'){
+          return b[key] - a[key] 
+        }
+      })
     }
-  })
 
   insertCards(carListEl, CARS);
 
@@ -146,7 +199,7 @@ function createFilterBlock(cars, field) {
   ${inputs}
   </div>
   </fieldset>`
-
+  
 }
 
 function createFilterElement(field, value) {
@@ -207,7 +260,7 @@ function createCardElement(car) {
 
   // ======== STARTS RATING END ======== 
 
-  return `<div class="col card mb-2">
+  return `<div class="col card mb-3" data-id="${car.id}">
     <div class="row g-0">
       <div class="col-4 position-relative card-img-wrap mt-3">
         <img width="1" height="1" loading="lazy" class="card-img" src="${car.img}" alt="${car.make} ${car.model} ${car.year}">
@@ -217,8 +270,8 @@ function createCardElement(car) {
       </div>
       <div class="col-8 card-body-wrap">
         <div class="card-body">
-          <h2 class="col-9 card-title text-primary fw-bold fs-4">${car.make} ${car.model} ${car.engine_volume} (${car.year})</h2>
-          <div class="col-3 d-flex align-items-center justify-content-end">
+          <h2 class="card-title text-primary fw-bold fs-4">${car.make} ${car.model} ${car.engine_volume} (${car.year})</h2>
+          <div class="d-flex align-items-center justify-content-end">
         </div>
 
         <div class="d-flex card-price">
@@ -251,7 +304,7 @@ function createCardElement(car) {
         <div class="info-box">
         <button class="info-btn btn btn-outline-success" title="Buy"><i class="fas fa-shopping-cart"></i></button>
           <a href="tel:${car.phone}" class="info-btn btn btn-outline-primary fw-bold call-link" title="Call Seller"><i class="fas fa-phone-alt"></i></a>
-          <button class="info-btn btn btn-outline-danger" title="Liked"><i class="far fa-heart"></i></button>
+          <button class="info-btn wish-btn btn ${wishListLS.includes(car.id) ? 'btn-danger' : 'btn-outline-danger'}" title="Liked"><i class="far fa-heart"></i></button>
         </div>
         </div>
         </div>
