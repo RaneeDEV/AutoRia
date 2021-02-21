@@ -16,13 +16,16 @@
       integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
       crossorigin="anonymous"
     />
-    <title>AUTO.RIA</title>
+    <meta name="theme-color" content="##198754" />
+    <title>AUTO.RIA - This page is an analog template of the famous for car sales website</title>
+    <meta name="description" content="This page is an analog template of the famous for car sales website.">
+    <link rel="icon" href="./img/logo.svg" />
   </head>
   <body>
     <header class="header">
       <div class="container">
         <h1 class="text-center">
-          <i class="fas fa-car-alt text-success p-2"></i>Car Sale Declaration
+          <i class="fas fa-car-alt text-success p-2"></i>Cars Sale Declaration
         </h1>
       </div>
     </header>
@@ -33,14 +36,15 @@
             <div
               class="col-12 top-panel d-flex justify-content-end text-end mb-4"
             >
-              <a href="#" class="wishlist-link text-success">
+              <a href="#" class="wishlist-link text-success" title="My Shopping Card">
                 <i class="fas fa-shopping-cart"></i>
               </a>
               <a
-                href="#"
+                href="wishlist.html"
                 class="wishlist-link text-danger"
                 id="wishListLink"
                 data-count="0"
+                title="My Wish List"
               >
                 <i class="fas fa-heart"></i>
               </a>
@@ -130,13 +134,20 @@
     <div class="modal-backdrop1" id="modalClose">
       <div class="modal-window">
         <i class="fas fa-cookie-bite cookies-icon mb-4"></i>
-        <h2 class="cookies-title fw-bold text-uppercase fst-italic">We Use Cookies !</h2>
+        <h2 class="cookies-title fw-bold text-uppercase fst-italic">
+          We Use Cookies !
+        </h2>
         <p class="cookies-text mt-4 mb-4">
           Our Website uses cookies and other tracking technologies. It's not a
           secret. But how you decide to communicate this fact to your users
           makes a huge difference.
         </p>
-        <button class="btn-cookies btn btn-outline-success fw-bold" id="btnModalClose">Mmm ... Sweet !</button>
+        <button
+          class="btn-cookies btn btn-outline-success fw-bold"
+          id="btnModalClose"
+        >
+          Mmm ... Sweet !
+        </button>
       </div>
     </div>
     <script

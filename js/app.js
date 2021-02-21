@@ -6,9 +6,12 @@ const sortingSelectEl = document.getElementById("sortingSelect")
 const searchFormEl = document.getElementById("searchForm")
 const filterFormEl = document.getElementById("filterForm")
 
+const modalCloseEl = document.getElementById("modalClose")
+const btnModalCloseEl = document.getElementById("btnModalClose")
+
 const wishListLinkEl = document.getElementById("wishListLink")
 
-const filterFields = ['make', 'fuel', 'transmission']
+const filterFields = ['make', 'fuel', 'transmission', "rating"]
 
 if (!localStorage.wishList) {
   localStorage.wishList = JSON.stringify([])
@@ -39,13 +42,13 @@ const currencyFormatter = new Intl.NumberFormat(undefined, {
 // ================= CONVERT CURRENCY END =================
 
 // ================= OPAN MODAL START =================
-setTimeout(() => document.body.classList.add('open-modal'), 2000)
-modalClose.addEventListener('click', function(event) {
+setTimeout(() => document.body.classList.add('open-modal'), 2500)
+modalCloseEl.addEventListener('click', function(event) {
   if (event.target == this) {
     document.body.classList.remove('open-modal')
   }
 })
-btnModalClose.addEventListener('click', function(event) {
+btnModalCloseEl.addEventListener('click', function(event) {
   if (event.target == this) {
     document.body.classList.remove('open-modal')
   }
@@ -58,6 +61,8 @@ document.addEventListener('keyup', event => {
 // ================= OPAN MODAL END =================
 
 // ================= WISH BTN'S START =================
+wishListLinkEl.dataset.count = wishListLS.length
+
 carListEl.addEventListener('click', event =>{
   const wishBtnEl = event.target.closest('.wish-btn')
   if (wishBtnEl) {
@@ -94,7 +99,6 @@ function insertCards(whereEl, cars) {
 
 // ================= SORTING START ================= 
 sortingSelectEl.addEventListener('change', event => {
-
   const [key, type] = event.target.value.split('-')
 
     if (type == 'ab') {
@@ -114,16 +118,13 @@ sortingSelectEl.addEventListener('change', event => {
         }
       })
     }
-
   insertCards(carListEl, CARS);
-
 })
 
 // ================= SORTING END ================= 
 
 // ================= SEARCH START ================= 
 searchFormEl.addEventListener('submit', event => {
-  
   event.preventDefault()
 
   const query = event.target.search.value.toLowerCase().trim().split(' ')
@@ -139,7 +140,6 @@ searchFormEl.addEventListener('submit', event => {
 
   event.target.reset()
   insertCards(carListEl, filterCars);
-
 })
 
 // ================= SEARCH END ================= 
@@ -147,7 +147,6 @@ searchFormEl.addEventListener('submit', event => {
 // ================= FILTER START ================= 
 renderFilterBlocks(filterFormEl, filterFields, CARS)
 filterFormEl.addEventListener('submit', function (event) {
-  
   event.preventDefault()
   const filterOptions = {}
 
@@ -170,12 +169,10 @@ filterFormEl.addEventListener('submit', function (event) {
       })
     })
 
-    insertCards(carListEl, filterCars);
-
+   insertCards(carListEl, filterCars);
 })
 
 function renderFilterBlocks(whereEl, fields, cars) {
- 
   let html = "";
   fields.forEach( field => {
     html += createFilterBlock(cars, field);
@@ -276,24 +273,22 @@ function createCardElement(car) {
 
         <div class="d-flex card-price">
         <h2 class="card-text fs-4 fw-bold text-success">${defaultnumber.format(car.price)} $</h3>
-        <h3 class="card-text card-currency fs-6 text-muted">${currencyFormatter.format(car.price * changeUSDtoUAH)}</h3>
+        <h3 class="card-text point fs-6 text-muted">${currencyFormatter.format(car.price * changeUSDtoUAH)}</h3>
         </div>
 
-        <div class="car-inf row row-cols-2 card-icons">
-          <p class="col card-text card-odo"><i class="fas fa-tachometer-alt"></i>${defaultnumber.format(car.odo)} km</p>
-          <p class="col card-text card-country"><i class="fas fa-map-marker-alt"></i>${car.country}</p>
-          <p class="col card-text card-fuel engine-volume"><i class="fas fa-gas-pump"></i>${car.fuel}, ${car.engine_volume}L</p>
-          <p class="col card-text card-transmission"><i class="fas fa-sitemap"></i>${car.transmission}</p>
-        </div>
+        <ul class="car-inf card-icons">
+          <li class="card-text card-odo"><i class="fas fa-tachometer-alt"></i>${defaultnumber.format(car.odo)} km</li>
+          <li class="card-text card-fuel engine-volume"><i class="fas fa-gas-pump"></i>${car.fuel}, ${car.engine_volume}L</li>
+          <li class="card-text card-country"><i class="fas fa-map-marker-alt"></i>${car.country}</li>
+          <li class="card-text card-transmission"><i class="fas fa-sitemap"></i>${car.transmission}</li>
+        </ul>
 
-          <h4 class="car-inf card-consuption fs-6 fw-bolder">Fuel Consuption (L/100km)</h4>
-
-        <div class="row row-cols-3 car-inf card-icons">
-          <p class="col card-text card-odo"><i class="fas fa-road"></i>${car.consume?.road}</p>
-          <p class="col card-text card-country"><i class="fas fa-city"></i>${car.consume?.city}</p>
-          <p class="col card-text card-fuel engine-volume"><i class="fas fa-sync"></i>${car.consume?.mixed}</p>
-        </div>
-
+        <h4 class="car-inf card-consuption fs-6 fw-bolder">Fuel Consuption (L/100km)</h4>
+        <ul class="car-inf card-icons">
+          <li class="card-text card-odo"><i class="fas fa-road"></i>${car.consume?.road}</li>
+          <li class="card-text card-country"><i class="fas fa-city"></i>${car.consume?.city}</li>
+          <li class="card-text card-fuel engine-volume"><i class="fas fa-sync"></i>${car.consume?.mixed}</li>
+        </ul>
           ${car.vin ? `<p class="card-icons card-vin border border-2 rounded-end border-primary"><i class="fas fa-car-alt text-light p-2 bg-primary"></i>${car.vin}</p>` : `<p class="card-icons card-vin border border-2 rounded-end border-warning fw-bold text-uppercase"><i class="fas fa-exclamation-triangle p-2 bg-warning"></i>Autor didn't write a VIN</p>`}
           
         <div class="card-icons">
