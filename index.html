@@ -17,8 +17,14 @@
       crossorigin="anonymous"
     />
     <meta name="theme-color" content="##198754" />
-    <title>AUTO.RIA - This page is an analog template of the famous for car sales website</title>
-    <meta name="description" content="This page is an analog template of the famous for car sales website.">
+    <title>
+      AUTO.RIA - This page is an analog template of the famous for car sales
+      website
+    </title>
+    <meta
+      name="description"
+      content="This page is an analog template of the famous for car sales website."
+    />
     <link rel="icon" href="./img/logo.svg" />
   </head>
   <body>
@@ -36,7 +42,11 @@
             <div
               class="col-12 top-panel d-flex justify-content-end text-end mb-4"
             >
-              <a href="#" class="wishlist-link text-success" title="My Shopping Card">
+              <a
+                href="#"
+                class="wishlist-link text-success"
+                title="My Shopping Card"
+              >
                 <i class="fas fa-shopping-cart"></i>
               </a>
               <a
@@ -120,9 +130,15 @@
           <form class="filter-form" id="filterForm" name="filterForm">
             <button
               type="submit"
-              class="btn btn-success fw-bold text-uppercase"
+              class="filter-btn btn btn-success fw-bold text-uppercase"
             >
               Filtering
+            </button>
+            <button
+              type="reset"
+              class="filter-btn btn btn-secondary fw-bold text-uppercase"
+            >
+              Reset
             </button>
           </form>
         </div>
@@ -131,25 +147,18 @@
         </div>
       </div>
     </div>
-    <div class="modal-backdrop1" id="modalClose">
-      <div class="modal-window">
-        <i class="fas fa-cookie-bite cookies-icon mb-4"></i>
-        <h2 class="cookies-title fw-bold text-uppercase fst-italic">
-          We Use Cookies !
-        </h2>
-        <p class="cookies-text mt-4 mb-4">
-          Our Website uses cookies and other tracking technologies. It's not a
-          secret. But how you decide to communicate this fact to your users
-          makes a huge difference.
-        </p>
-        <button
-          class="btn-cookies btn btn-outline-success fw-bold"
-          id="btnModalClose"
-        >
-          Mmm ... Sweet !
-        </button>
-      </div>
+    <div class="modal-window">
+      <p class="cookies-text fw-bold">
+        This website uses cookies to ensure you get the best experience
+      </p>
+      <button
+        class="btn-cookies btn btn-success fw-bold text-uppercase"
+        id="btnModalClose"
+      >
+        Got It
+      </button>
     </div>
+    <a href="#" class="to-top-link btn btn-success pe-4 ps-4" id="toTopLink"><i class="fas fa-chevron-up"></i></a>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"

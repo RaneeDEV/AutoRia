@@ -3,6 +3,9 @@ const carListEl = document.getElementById("carList");
 const masonryBtnsEl = document.getElementById("masonryBtns")
 const sortingSelectEl = document.getElementById("sortingSelect")
 
+const toTopLinkEl = document.getElementById("toTopLink")
+
+
 const searchFormEl = document.getElementById("searchForm")
 const filterFormEl = document.getElementById("filterForm")
 
@@ -18,6 +21,8 @@ if (!localStorage.wishList) {
 }
 
 const wishListLS = JSON.parse(localStorage.wishList)
+
+
 
 // ================= CONVERT TIMW START =================
 const dateFormatter = new Intl.DateTimeFormat()
@@ -43,11 +48,6 @@ const currencyFormatter = new Intl.NumberFormat(undefined, {
 
 // ================= OPAN MODAL START =================
 setTimeout(() => document.body.classList.add('open-modal'), 2500)
-modalCloseEl.addEventListener('click', function(event) {
-  if (event.target == this) {
-    document.body.classList.remove('open-modal')
-  }
-})
 btnModalCloseEl.addEventListener('click', function(event) {
   if (event.target == this) {
     document.body.classList.remove('open-modal')
@@ -284,7 +284,7 @@ function createCardElement(car) {
         </ul>
 
         <h4 class="car-inf card-consuption fs-6 fw-bolder">Fuel Consuption (L/100km)</h4>
-        <ul class="car-inf card-icons">
+        <ul class="car-inf fuel-inf card-icons">
           <li class="card-text card-odo"><i class="fas fa-road"></i>${car.consume?.road}</li>
           <li class="card-text card-country"><i class="fas fa-city"></i>${car.consume?.city}</li>
           <li class="card-text card-fuel engine-volume"><i class="fas fa-sync"></i>${car.consume?.mixed}</li>
