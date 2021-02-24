@@ -3,8 +3,9 @@ const carListEl = document.getElementById("carList");
 const masonryBtnsEl = document.getElementById("masonryBtns")
 const sortingSelectEl = document.getElementById("sortingSelect")
 
-const toTopLinkEl = document.getElementById("toTopLink")
+const toTopLinkEl = document.getElementById('toTopLink')
 
+const seeMoreBtnEl = document.getElementById('seeMoreBtn')
 
 const searchFormEl = document.getElementById("searchForm")
 const filterFormEl = document.getElementById("filterForm")
@@ -14,15 +15,11 @@ const btnModalCloseEl = document.getElementById("btnModalClose")
 
 const wishListLinkEl = document.getElementById("wishListLink")
 
-const filterFields = ['make', 'fuel', 'transmission', "rating"]
+const filterFields = ['make', 'engine_volume', 'fuel', 'transmission', "rating", 'price']
 
-if (!localStorage.wishList) {
-  localStorage.wishList = JSON.stringify([])
-}
+!localStorage.wishList && (localStorage.wishList = JSON.stringify([]))
 
 const wishListLS = JSON.parse(localStorage.wishList)
-
-
 
 // ================= CONVERT TIMW START =================
 const dateFormatter = new Intl.DateTimeFormat()
@@ -46,9 +43,45 @@ const currencyFormatter = new Intl.NumberFormat(undefined, {
 })
 // ================= CONVERT CURRENCY END =================
 
+// ================= SCROLL-UP START =================
+document.addEventListener('scroll', () => {
+  if (window.pageYOffset > 1000) {
+    return toTopLinkEl.style.display = 'block'
+  } else if (window.pageYOffset < 1000) {
+    return toTopLinkEl.style.display = 'none' 
+  }
+})
+// ================= SCROLL-UP END =================
+
+// ================= WISHLIST START =================
+isWishlistPage()
+
+function isWishlistPage() {
+  if (location.pathname == '/wishlist.html') {
+    console.log('wishlist');
+
+  CARS = CARS.reduce((accu, car) => {
+    if (wishListLS.includes(car.id)) {
+      return [...accu, car]
+    } else {
+      return accu
+    }
+  }, [])
+  }
+}
+
+// carListEl.addEventListener('click', event =>{
+//   const wishBtnEl = event.target.closest('.wish-btn')
+//   if (wishBtnEl) {
+    
+//   }
+//   insertCards(carListEl, CARS);
+// })
+// ================= WISHLIST END =================
+
 // ================= OPAN MODAL START =================
 setTimeout(() => document.body.classList.add('open-modal'), 2500)
-btnModalCloseEl.addEventListener('click', function(event) {
+btnModalCloseEl && btnModalCloseEl.addEventListener('click', function(event) {
   if (event.target == this) {
     document.body.classList.remove('open-modal')
   }
@@ -82,16 +115,32 @@ carListEl.addEventListener('click', event =>{
 })
 // ================= WISH BTN'S END =================
 
+seeMoreBtnEl && seeMoreBtnEl.addEventListener('click', function(event) {
+  insertCards(carListEl, CARS); 
+})
+
 // ================= CAR CARD GENERATE START ================= 
 insertCards(carListEl, CARS);
 
-function insertCards(whereEl, cars) {
-
+function insertCards(whereEl, cars, clear) {
+  const count = 10
+  clear && (whereEl.innerHTML = '')
+  const length = whereEl.children.length
+  if (length + count >= cars.length) {
+    seeMoreBtnEl.classList.add('d-none')
+  } else {
+    seeMoreBtnEl.classList.contains('d-none') && seeMoreBtnEl.classList.remove('d-none')
+  }
   let html = "";
-  cars.forEach((car) => {
-    html += createCardElement(car);
-  });
-  whereEl.innerHTML = ""; //!!!
+  for (let i = 0; i < count; i++) {
+    const car = cars[length + i]
+    if (car) {
+      html += createCardElement(car); 
+    } else {
+      seeMoreBtnEl.classList.add('d-none')
+      break
+    }
+  }
   whereEl.insertAdjacentHTML("beforeEnd", html);
 
 }
@@ -118,7 +167,7 @@ sortingSelectEl.addEventListener('change', event => {
         }
       })
     }
-  insertCards(carListEl, CARS);
+  insertCards(carListEl, CARS, true);
 })
 
 // ================= SORTING END ================= 
@@ -130,7 +179,7 @@ searchFormEl.addEventListener('submit', event => {
   const query = event.target.search.value.toLowerCase().trim().split(' ')
   const filterFields = ['make', 'model', 'transmission', 'engine_volume']
 
-  const filterCars = CARS.filter(car => {
+  CARS = [...DATA].filter(car => {
     return query.every(word => {
       return !word || filterFields.some(field => {
         return `${car[field]}`.toLowerCase().trim().includes(word)
@@ -139,7 +188,7 @@ searchFormEl.addEventListener('submit', event => {
   })
 
   event.target.reset()
-  insertCards(carListEl, filterCars);
+  insertCards(carListEl, CARS, true);
 })
 
 // ================= SEARCH END ================= 
@@ -152,24 +201,29 @@ filterFormEl.addEventListener('submit', function (event) {
 
   filterFields.forEach( field => {
     const checkedValues = [...this[field]].reduce((accu, input) => {
-      if (input.checked) {
+      if (field === 'price' || input.checked) {
         return [...accu, input.value]
       } else {
         return accu
       }
     }, [])
     filterOptions[field] = checkedValues
-  })    
+  })      
 
-    const filterCars = CARS.filter(car => {
+
+    CARS = [...DATA].filter(car => {
       return filterFields.every(field => {
         return !filterOptions[field].length || filterOptions[field].some(value => {
-          return `${car[field]}`.includes(value)
+          if (field === 'price') {
+            return car[field] <= value && car[field] >= value 
+          } else {
+            return `${car[field]}`.includes(value)
+          }
         })
       })
     })
 
-   insertCards(carListEl, filterCars);
+   insertCards(carListEl, CARS, true);
 })
 
 function renderFilterBlocks(whereEl, fields, cars) {
@@ -184,11 +238,17 @@ function createFilterBlock(cars, field) {
  
   let inputs = ''
 
-  const uValues = [...new Set(cars.map(car => car[field]).sort())]
-
-  uValues.forEach((value) => {
-    inputs += createFilterElement(field, value)
-  });
+  
+  const values = cars.map(car => car[field])
+  if (field === 'price') {
+    const range = [Math.min(...values), Math.max(...values)]
+    inputs += createFilterElement(field, range)
+  } else {
+    const uValues = [...new Set(values)].sort()
+    uValues.forEach((value) => {
+      inputs += createFilterElement(field, value)
+    });
+  }
 
   return `<fieldset class="filter-block border-top mb-3">
   <legend class="filter-fields fw-bold text-uppercase fs-4">${field}</legend>
@@ -200,10 +260,18 @@ function createFilterBlock(cars, field) {
 }
 
 function createFilterElement(field, value) {
-  return `<label>
-  <input type="checkbox" name="${field}" value="${value}">
-  ${value}
-  </label>`
+  if (field === 'price') {
+    return `<label>
+    <input type="number" name="${field}" value="${value[0]}" min="${value[0]}" max="${value[1] - 1}" step="1">
+    <p class="pt-3">To</p>
+    <input type="number" name="${field}" value="${value[1]}" min="${value[0] + 1}" max="${value[1]}" step="1">
+    </label>`
+  } else{
+    return `<label>
+    <input type="checkbox" name="${field}" value="${value}">
+    ${value}
+    </label>`
+  }
 }
 
 // ================= FILTER END ================= 

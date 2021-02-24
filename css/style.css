@@ -23,8 +23,21 @@ body.open-modal .modal-window {
 
 .to-top-link {
   position: fixed;
-  bottom: 50px;
-  right: 70px;
+  bottom: 30px;
+  right: 60px;
+  border-radius: 5px;
+  padding: 10px 25px;
+  color: var(--white);
+  background-color: var(--primary-darckness-color);
+  transition: .25s;
+  text-decoration: none;
+  display: none;
+}
+
+.to-top-link:hover{
+  opacity: .8;
+  transform: translateY(-2px);
+  color: var(--white);
 }
 
 /* =========================== COMMON START =========================== */
